@@ -32,24 +32,24 @@ Content-Type: text/plain
 
 sopflags sopflags = 
 comment ""
-position -17.9147 -2.90308
+position -2.13546 -4.2316
 connectornextid 1
-flags =  lock off model off template off footprint off xray off bypass off display off render off highlight off unload off savedata off compress on colordefault on exposed on
+flags =  lock off model off template on footprint off xray off bypass off display on render on highlight off unload off savedata off compress on colordefault on exposed on
 outputsNamed3
 {
 }
 inputsNamed3
 {
-0 	heightfield_distortbylayer1 1 1 "input1"
+0 	heightfield_copylayer1 1 1 "input1"
 }
 inputs
 {
-0 	heightfield_distortbylayer1 0 1
+0 	heightfield_copylayer1 0 1
 }
 stat
 {
-  create 1544658950
-  modify 1544659089
+  create 1548971673
+  modify 1548973089
   author Paul_Ambrosiussen@LAPTOP-P8R7FBPF
   access 0777
 }
@@ -87,7 +87,7 @@ Content-Type: text/plain
 }
 {
   create 1541699822
-  modify 1544658952
+  modify 1548972598
   author Paul_Ambrosiussen@LAPTOP-P8R7FBPF
   access 0777
 }
@@ -112,7 +112,7 @@ Content-Type: text/plain
 
 sopflags sopflags = 
 comment ""
-position -1.46291 -5.53543
+position -1.46291 -7.83443
 connectornextid 2
 flags =  lock off model off template off footprint off xray off bypass off display off render off highlight off unload off savedata off compress on colordefault on exposed on
 outputsNamed3
@@ -130,7 +130,7 @@ inputs
 stat
 {
   create 1541633966
-  modify 1544659042
+  modify 1548973112
   author Paul_Ambrosiussen@LAPTOP-P8R7FBPF
   access 0777
 }
@@ -204,13 +204,6 @@ Content-Type: text/plain
       flags = 0
       segment { length = 0 expr = "if(ch(\"tile_method\")==1,ch(\"num_tilesy\"), ceil(ch(\"volume_resy\")/ch(\"tile_sizey\")))" }
     }
-    channel output {
-      lefttype = extend
-      righttype = extend
-      defaultString = \"C:/Users/PAULAM~1/Desktop/CRAP/LayerExporter/Layer_Heightmap.png\"
-      flags = 0
-      segment { length = 0 expr = chs(\"../sOutputHeight\") }
-    }
     channel flop {
       lefttype = extend
       righttype = extend
@@ -218,15 +211,80 @@ Content-Type: text/plain
       flags = 0
       segment { options = {	 autoslope  ai ao }
 
-	 length = 0 value = 1 1 accel = 0.33333333333333331 0.33333333333333331 expr = "import hou
-
-#print hou.getenv(\"HAPI_CLIENT_NAME\")
-
-if hou.getenv(\"HAPI_CLIENT_NAME\") == None:
-    return 1
-else:
-    return 0"
+	 length = 0 value = 1 1 accel = 0.33333333333333331 0.33333333333333331 expr = 1-ch(\"../sHost\")
 	 language = python }
+    }
+    channel tile_output {
+      lefttype = extend
+      righttype = extend
+      flags = 0
+      segment { length = 0 expr = ch(\"../tile_output\") }
+    }
+    channel tile_method {
+      lefttype = extend
+      righttype = extend
+      flags = 0
+      segment { length = 0 expr = ch(\"../tile_method\") }
+    }
+    channel tile_sizex {
+      lefttype = extend
+      righttype = extend
+      default = 512
+      flags = 0
+      segment { length = 0 value = 512 512 expr = ch(\"../tile_sizex\") }
+    }
+    channel tile_sizey {
+      lefttype = extend
+      righttype = extend
+      default = 512
+      flags = 0
+      segment { length = 0 value = 512 512 expr = ch(\"../tile_sizey\") }
+    }
+    channel num_tilesx {
+      lefttype = extend
+      righttype = extend
+      default = 4
+      flags = 0
+      segment { length = 0 value = 4 4 expr = ch(\"../num_tilesx\") }
+    }
+    channel num_tilesy {
+      lefttype = extend
+      righttype = extend
+      default = 4
+      flags = 0
+      segment { length = 0 value = 4 4 expr = ch(\"../num_tilesy\") }
+    }
+    channel tile_overlapx {
+      lefttype = extend
+      righttype = extend
+      flags = 0
+      segment { length = 0 expr = ch(\"../tile_overlapx\") }
+    }
+    channel tile_overlapy {
+      lefttype = extend
+      righttype = extend
+      flags = 0
+      segment { length = 0 expr = ch(\"../tile_overlapy\") }
+    }
+    channel file_naming {
+      lefttype = extend
+      righttype = extend
+      flags = 0
+      segment { length = 0 expr = ch(\"../file_naming\") }
+    }
+    channel udim_stride {
+      lefttype = extend
+      righttype = extend
+      default = 10
+      flags = 0
+      segment { length = 0 value = 10 10 expr = ch(\"../udim_stride\") }
+    }
+    channel tile_padding {
+      lefttype = extend
+      righttype = extend
+      default = 1
+      flags = 0
+      segment { length = 0 value = 1 1 expr = ch(\"../tile_padding\") }
     }
   }
 
@@ -238,20 +296,20 @@ Content-Type: text/plain
 version 0.8
 folder0	[ 0	locks=0 ]	(	0	)
 execute	[ 0	locks=0 ]	(	0	)
-output	[ 0	locks=0 ]	(	[ output	C:/temp/LayerExport/Layer_Heightmap.png ] 	)
+output	[ 8	locks=0 ]	(	""	)
 out_type	[ 0	locks=0 ]	(	"packed"	)
 out_format	[ 0	locks=0 ]	(	"single"	)
 output_type	[ 0	locks=0 ]	(	"i16"	)
 specify_res	[ 0	locks=0 ]	(	"off"	)
 resolution	[ 0	locks=0 ]	(	256	256	)
-volume_res	[ 0	locks=0 ]	(	[ volume_resx	505 ] 	[ volume_resy	505 ] 	)
-actual_res	[ 0	locks=0 ]	(	505	505	)
+volume_res	[ 0	locks=0 ]	(	[ volume_resx	500 ] 	[ volume_resy	500 ] 	)
+actual_res	[ 0	locks=0 ]	(	500	500	)
 trange	[ 0	locks=0 ]	(	"off"	)
 f	[ 0	locks=0 ]	(	[ f1	1 ] 	[ f2	240 ] 	1	)
 folder3	[ 0	locks=0 ]	(	1	)
 xflip	[ 0	locks=0 ]	(	"off"	)
 yflip	[ 0	locks=0 ]	(	"off"	)
-flop	[ 0	locks=0	autoscope=1	autosel=4294967295 ]	(	[ flop	1 ] 	)
+flop	[ 8	locks=0	autoscope=1	autosel=4294967295 ]	(	[ flop	0 ] 	)
 folder1	[ 0	locks=0 ]	(	0	)
 layerlabel	[ 0	locks=0 ]	(	"Terrain Layer"	)
 fill_red_channel	[ 0	locks=0 ]	(	"on"	)
@@ -281,18 +339,18 @@ deep_raster_layers	[ 0	locks=0 ]	(	""	)
 deep_raster_layers01	[ 0	locks=0 ]	(	""	)
 deep_raster_layers_11	[ 0	locks=0 ]	(	""	)
 folder2	[ 0	locks=0 ]	(	0	)
-tile_output	[ 0	locks=0 ]	(	"off"	)
-tile_method	[ 0	locks=0 ]	(	"tilesize"	)
-tile_size	[ 0	locks=0 ]	(	512	512	)
-num_tiles	[ 0	locks=0 ]	(	4	4	)
-tile_overlap	[ 0	locks=0 ]	(	0	0	)
-file_naming	[ 0	locks=0 ]	(	"udim"	)
-udim_stride	[ 0	locks=0 ]	(	10	)
-tile_padding	[ 0	locks=0 ]	(	1	)
-actual_tile_size	[ 0	locks=0 ]	(	[ actual_tile_sizex	512 ] 	[ actual_tile_sizey	512 ] 	)
-actual_num_tiles	[ 0	locks=0 ]	(	[ actual_num_tilesx	1 ] 	[ actual_num_tilesy	1 ] 	)
-file_out	[ 0	locks=0 ]	(	""	)
-tile_offset	[ 0	locks=0 ]	(	0	0	)
+tile_output	[ 0	locks=0 ]	(	[ tile_output	1 ] 	)
+tile_method	[ 0	locks=0 ]	(	[ tile_method	1 ] 	)
+tile_size	[ 0	locks=0 ]	(	[ tile_sizex	512 ] 	[ tile_sizey	512 ] 	)
+num_tiles	[ 0	locks=0 ]	(	[ num_tilesx	2 ] 	[ num_tilesy	2 ] 	)
+tile_overlap	[ 0	locks=0 ]	(	[ tile_overlapx	0 ] 	[ tile_overlapy	0 ] 	)
+file_naming	[ 0	locks=0 ]	(	[ file_naming	3 ] 	)
+udim_stride	[ 0	locks=0 ]	(	[ udim_stride	10 ] 	)
+tile_padding	[ 0	locks=0 ]	(	[ tile_padding	1 ] 	)
+actual_tile_size	[ 0	locks=0 ]	(	[ actual_tile_sizex	250 ] 	[ actual_tile_sizey	250 ] 	)
+actual_num_tiles	[ 0	locks=0 ]	(	[ actual_num_tilesx	2 ] 	[ actual_num_tilesy	2 ] 	)
+file_out	[ 0	locks=0 ]	(	C:/temp/LayerExport/Layer_Heightmap_x1_y1.png	)
+tile_offset	[ 0	locks=0 ]	(	250	250	)
 out_range	[ 0	locks=0 ]	(	1	1	1	)
 }
 
@@ -338,7 +396,7 @@ inputs
 stat
 {
   create 1541699524
-  modify 1541809068
+  modify 1548194750
   author Paul_Ambrosiussen@LAPTOP-P8R7FBPF
   access 0777
 }
@@ -416,7 +474,7 @@ inputs
 stat
 {
   create 1541714414
-  modify 1541809068
+  modify 1547233477
   author Paul_Ambrosiussen@LAPTOP-P8R7FBPF
   access 0777
 }
@@ -435,7 +493,7 @@ folder1	[ 0	locks=0 ]	(	0	)
 scale	[ 0	locks=0 ]	(	1	)
 gridscale	[ 0	locks=0 ]	(	1	)
 heightscale	[ 0	locks=0 ]	(	1	)
-heightoffset	[ 0	locks=0 ]	(	-1	)
+heightoffset	[ 0	locks=0 ]	(	0	)
 folder0	[ 0	locks=0 ]	(	0	)
 tx	[ 0	locks=0 ]	(	0	)
 tz	[ 0	locks=0 ]	(	0	)
@@ -472,7 +530,7 @@ Content-Type: text/plain
 
 sopflags sopflags = 
 comment ""
-position -1.46291 -6.53543
+position -1.46291 -8.83443
 connectornextid 2
 flags =  lock off model off template off footprint off xray off bypass off display off render off highlight off unload off savedata off compress on colordefault on exposed on
 outputsNamed3
@@ -490,7 +548,7 @@ inputs
 stat
 {
   create 1541633966
-  modify 1544659045
+  modify 1548973109
   author Paul_Ambrosiussen@LAPTOP-P8R7FBPF
   access 0777
 }
@@ -564,13 +622,6 @@ Content-Type: text/plain
       flags = 0
       segment { length = 0 expr = "if(ch(\"tile_method\")==1,ch(\"num_tilesy\"), ceil(ch(\"volume_resy\")/ch(\"tile_sizey\")))" }
     }
-    channel output {
-      lefttype = extend
-      righttype = extend
-      defaultString = \"C:/Users/PAULAM~1/Desktop/CRAP/LayerExporter/Layer_Paint2.png\"
-      flags = 0
-      segment { length = 0 expr = chs(\"../sOutputPaint\") }
-    }
     channel red_channel {
       lefttype = extend
       righttype = extend
@@ -585,15 +636,80 @@ Content-Type: text/plain
       flags = 0
       segment { options = {	 autoslope  ai ao }
 
-	 length = 0 value = 1 1 accel = 0.33333333333333331 0.33333333333333331 expr = "import hou
-
-#print hou.getenv(\"HAPI_CLIENT_NAME\")
-
-if hou.getenv(\"HAPI_CLIENT_NAME\") == None:
-    return 1
-else:
-    return 0"
+	 length = 0 value = 1 1 accel = 0.33333333333333331 0.33333333333333331 expr = 1-ch(\"../sHost\")
 	 language = python }
+    }
+    channel tile_output {
+      lefttype = extend
+      righttype = extend
+      flags = 0
+      segment { length = 0 expr = ch(\"../tile_output\") }
+    }
+    channel tile_method {
+      lefttype = extend
+      righttype = extend
+      flags = 0
+      segment { length = 0 expr = ch(\"../tile_method\") }
+    }
+    channel tile_sizex {
+      lefttype = extend
+      righttype = extend
+      default = 512
+      flags = 0
+      segment { length = 0 value = 512 512 expr = ch(\"../tile_sizex\") }
+    }
+    channel tile_sizey {
+      lefttype = extend
+      righttype = extend
+      default = 512
+      flags = 0
+      segment { length = 0 value = 512 512 expr = ch(\"../tile_sizey\") }
+    }
+    channel tile_overlapx {
+      lefttype = extend
+      righttype = extend
+      flags = 0
+      segment { length = 0 expr = ch(\"../tile_overlapx\") }
+    }
+    channel tile_overlapy {
+      lefttype = extend
+      righttype = extend
+      flags = 0
+      segment { length = 0 expr = ch(\"../tile_overlapy\") }
+    }
+    channel file_naming {
+      lefttype = extend
+      righttype = extend
+      flags = 0
+      segment { length = 0 expr = ch(\"../file_naming\") }
+    }
+    channel udim_stride {
+      lefttype = extend
+      righttype = extend
+      default = 10
+      flags = 0
+      segment { length = 0 value = 10 10 expr = ch(\"../udim_stride\") }
+    }
+    channel num_tilesx {
+      lefttype = extend
+      righttype = extend
+      default = 4
+      flags = 0
+      segment { length = 0 value = 4 4 expr = ch(\"../num_tilesx\") }
+    }
+    channel num_tilesy {
+      lefttype = extend
+      righttype = extend
+      default = 4
+      flags = 0
+      segment { length = 0 value = 4 4 expr = ch(\"../num_tilesy\") }
+    }
+    channel tile_padding {
+      lefttype = extend
+      righttype = extend
+      default = 1
+      flags = 0
+      segment { length = 0 value = 1 1 expr = ch(\"../tile_padding\") }
     }
   }
 
@@ -605,24 +721,24 @@ Content-Type: text/plain
 version 0.8
 folder0	[ 0	locks=0 ]	(	0	)
 execute	[ 0	locks=0 ]	(	0	)
-output	[ 0	locks=0 ]	(	[ output	C:/temp/LayerExport/Layer_Blue.png ] 	)
+output	[ 8	locks=0 ]	(	""	)
 out_type	[ 0	locks=0 ]	(	"packed"	)
 out_format	[ 0	locks=0 ]	(	"single"	)
 output_type	[ 0	locks=0 ]	(	"i16"	)
 specify_res	[ 0	locks=0 ]	(	"off"	)
 resolution	[ 0	locks=0 ]	(	256	256	)
-volume_res	[ 0	locks=0 ]	(	[ volume_resx	505 ] 	[ volume_resy	505 ] 	)
-actual_res	[ 0	locks=0 ]	(	505	505	)
+volume_res	[ 0	locks=0 ]	(	[ volume_resx	500 ] 	[ volume_resy	500 ] 	)
+actual_res	[ 0	locks=0 ]	(	500	500	)
 trange	[ 0	locks=0 ]	(	"off"	)
 f	[ 0	locks=0 ]	(	[ f1	1 ] 	[ f2	240 ] 	1	)
 folder3	[ 0	locks=0 ]	(	1	)
 xflip	[ 0	locks=0 ]	(	"off"	)
 yflip	[ 0	locks=0 ]	(	"off"	)
-flop	[ 0	locks=0	autoscope=1	autosel=4294967295 ]	(	[ flop	1 ] 	)
+flop	[ 8	locks=0	autoscope=1	autosel=4294967295 ]	(	[ flop	0 ] 	)
 folder1	[ 0	locks=0 ]	(	0	)
 layerlabel	[ 0	locks=0 ]	(	"Terrain Layer"	)
 fill_red_channel	[ 0	locks=0 ]	(	"on"	)
-red_channel	[ 0	locks=0 ]	(	[ red_channel	Blue ] 	)
+red_channel	[ 0	locks=0 ]	(	[ red_channel	R ] 	)
 red_out_range	[ 0	locks=0 ]	(	"none"	)
 red_from_range	[ 0	locks=0 ]	(	-256	256	)
 red_to_range	[ 0	locks=0 ]	(	0	1	)
@@ -648,18 +764,18 @@ deep_raster_layers	[ 0	locks=0 ]	(	""	)
 deep_raster_layers01	[ 0	locks=0 ]	(	""	)
 deep_raster_layers_11	[ 0	locks=0 ]	(	""	)
 folder2	[ 0	locks=0 ]	(	0	)
-tile_output	[ 0	locks=0 ]	(	"off"	)
-tile_method	[ 0	locks=0 ]	(	"tilesize"	)
-tile_size	[ 0	locks=0 ]	(	512	512	)
-num_tiles	[ 0	locks=0 ]	(	4	4	)
-tile_overlap	[ 0	locks=0 ]	(	0	0	)
-file_naming	[ 0	locks=0 ]	(	"udim"	)
-udim_stride	[ 0	locks=0 ]	(	10	)
-tile_padding	[ 0	locks=0 ]	(	1	)
-actual_tile_size	[ 0	locks=0 ]	(	[ actual_tile_sizex	512 ] 	[ actual_tile_sizey	512 ] 	)
-actual_num_tiles	[ 0	locks=0 ]	(	[ actual_num_tilesx	1 ] 	[ actual_num_tilesy	1 ] 	)
-file_out	[ 0	locks=0 ]	(	""	)
-tile_offset	[ 0	locks=0 ]	(	0	0	)
+tile_output	[ 8	locks=0 ]	(	[ tile_output	1 ] 	)
+tile_method	[ 8	locks=0 ]	(	[ tile_method	1 ] 	)
+tile_size	[ 0	locks=0 ]	(	[ tile_sizex	512 ] 	[ tile_sizey	512 ] 	)
+num_tiles	[ 0	locks=0 ]	(	[ num_tilesx	2 ] 	[ num_tilesy	2 ] 	)
+tile_overlap	[ 0	locks=0 ]	(	[ tile_overlapx	0 ] 	[ tile_overlapy	0 ] 	)
+file_naming	[ 8	locks=0 ]	(	[ file_naming	3 ] 	)
+udim_stride	[ 0	locks=0 ]	(	[ udim_stride	10 ] 	)
+tile_padding	[ 0	locks=0 ]	(	[ tile_padding	1 ] 	)
+actual_tile_size	[ 0	locks=0 ]	(	[ actual_tile_sizex	250 ] 	[ actual_tile_sizey	250 ] 	)
+actual_num_tiles	[ 0	locks=0 ]	(	[ actual_num_tilesx	2 ] 	[ actual_num_tilesy	2 ] 	)
+file_out	[ 0	locks=0 ]	(	C:/temp/LayerExport/Layer_R_x3_y3.png	)
+tile_offset	[ 0	locks=0 ]	(	375	375	)
 out_range	[ 0	locks=0 ]	(	1	1	1	)
 }
 
@@ -760,6 +876,77 @@ Content-Type: text/plain
 }
 
 --HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/heightfield_wrangle2.init"
+Content-Type: text/plain
+
+type = volumewrangle
+matchesdef = 1
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/heightfield_wrangle2.def"
+Content-Type: text/plain
+
+sopflags sopflags = 
+comment ""
+position 4.4987 -4.22517
+connectornextid 2
+flags =  lock off model off template on footprint off xray off bypass off display on render on highlight off unload off savedata off compress on colordefault on exposed on
+outputsNamed3
+{
+1 "output1"
+}
+inputsNamed3
+{
+0 	detailwrangle1 1 1 "input1"
+}
+inputs
+{
+0 	detailwrangle1 0 1
+}
+stat
+{
+  create 1541699524
+  modify 1548279135
+  author Paul_Ambrosiussen@LAPTOP-P8R7FBPF
+  access 0777
+}
+color UT_Color RGB 0.8 0.8 0.8 
+delscript ""
+exprlanguage hscript
+end
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/heightfield_wrangle2.parm"
+Content-Type: text/plain
+
+{
+version 0.8
+folder0	[ 0	locks=0 ]	(	0	0	)
+group	[ 0	locks=0 ]	(	""	)
+bindeach	[ 0	locks=0 ]	(	"off"	)
+snippet	[ 0	locks=0 ]	(	"@height -= 1.0 - (1.0/256.0);"	)
+exportlist	[ 0	locks=0 ]	(	*	)
+vex_strict	[ 0	locks=0 ]	(	"off"	)
+autobind	[ 0	locks=0 ]	(	"on"	)
+bindings	[ 0	locks=0 ]	(	0	)
+vex_geometrygenerator	[ 0	locks=0 ]	(	"off"	)
+vdb_signedflood	[ 0	locks=0 ]	(	"on"	)
+vex_cwdpath	[ 0	locks=0 ]	(	.	)
+vex_outputmask	[ 0	locks=0 ]	(	*	)
+}
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/heightfield_wrangle2.userdata"
+Content-Type: text/plain
+
+{
+	"___Version___":{
+		"type":"string",
+		"value":""
+	}
+}
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
 Content-Disposition: attachment; filename="hdaroot/HDA_TERRAIN_INPUT.init"
 Content-Type: text/plain
 
@@ -816,7 +1003,7 @@ Content-Type: text/plain
 {
 	"___Version___":{
 		"type":"string",
-		"value":"17.0.425"
+		"value":"17.0.456"
 	}
 }
 
@@ -877,7 +1064,7 @@ Content-Type: text/plain
 {
 	"___Version___":{
 		"type":"string",
-		"value":"17.0.425"
+		"value":"17.0.456"
 	}
 }
 
@@ -903,7 +1090,7 @@ inputs
 stat
 {
   create 1474476437
-  modify 1544659046
+  modify 1548972911
   author nobody@nowhere
   access 0777
 }
@@ -957,10 +1144,10 @@ renderdialog	[ 0	locks=0 ]	(	0	)
 trange	[ 8	locks=0 ]	(	[ trange	0 ] 	)
 f	[ 0	locks=0 ]	(	[ f1	1 ] 	[ f2	240 ] 	[ f3	1 ] 	)
 take	[ 0	locks=0 ]	(	_current_	)
-copswitcher	[ 0	locks=0 ]	(	3	3	3	3	3	)
+copswitcher	[ 0	locks=0 ]	(	0	0	0	0	0	)
 coppath	[ 0	locks=0 ]	(	../../../heightfield_output_height/cop2net1/flip1	)
 tres	[ 0	locks=0 ]	(	"natural"	)
-res	[ 0	locks=0 ]	(	505	505	)
+res	[ 0	locks=0 ]	(	500	500	)
 resmenu	[ 0	locks=0 ]	(	0	)
 copoutput	[ 0	locks=0 ]	(	`chs(\"../../output\")`	)
 mkpath	[ 0	locks=0 ]	(	"on"	)
@@ -975,7 +1162,7 @@ batchmode	[ 0	locks=0 ]	(	"off"	)
 batchsize	[ 0	locks=0 ]	(	2	)
 reloadfiles	[ 0	locks=0 ]	(	"off"	)
 outputarea	[ 0	locks=0 ]	(	"frame"	)
-pixelcrop	[ 0	locks=0 ]	(	0	0	504	504	)
+pixelcrop	[ 0	locks=0 ]	(	0	0	499	499	)
 uvcrop	[ 0	locks=0 ]	(	0	0	1	1	)
 limitcanvaspixels	[ 0	locks=0 ]	(	"on"	)
 canvaspixels	[ 0	locks=0 ]	(	64	)
@@ -1031,7 +1218,7 @@ Content-Type: text/plain
 {
 	"___Version___":{
 		"type":"string",
-		"value":"17.0.425"
+		"value":"17.0.456"
 	}
 }
 
@@ -1057,7 +1244,7 @@ inputs
 stat
 {
   create 1474476437
-  modify 1542052812
+  modify 1548971915
   author nobody@nowhere
   access 0777
 }
@@ -1588,7 +1775,7 @@ take	[ 0	locks=0 ]	(	_current_	)
 copswitcher	[ 0	locks=0 ]	(	0	0	0	0	0	)
 coppath	[ 0	locks=0 ]	(	../../cop2net1/window1	)
 tres	[ 0	locks=0 ]	(	"natural"	)
-res	[ 0	locks=0 ]	(	125	125	)
+res	[ 0	locks=0 ]	(	250	250	)
 resmenu	[ 0	locks=0 ]	(	0	)
 copoutput	[ 8	locks=0	autoscope=1 ]	(	`chs(\"../../file_out\")`	)
 mkpath	[ 0	locks=0 ]	(	"on"	)
@@ -1603,7 +1790,7 @@ batchmode	[ 0	locks=0 ]	(	"off"	)
 batchsize	[ 0	locks=0 ]	(	2	)
 reloadfiles	[ 0	locks=0 ]	(	"off"	)
 outputarea	[ 0	locks=0 ]	(	"frame"	)
-pixelcrop	[ 0	locks=0 ]	(	0	0	124	124	)
+pixelcrop	[ 0	locks=0 ]	(	0	0	249	249	)
 uvcrop	[ 0	locks=0 ]	(	0	0	1	1	)
 limitcanvaspixels	[ 0	locks=0 ]	(	"on"	)
 canvaspixels	[ 0	locks=0 ]	(	64	)
@@ -1661,7 +1848,7 @@ Content-Type: text/plain
 {
 	"___Version___":{
 		"type":"string",
-		"value":"17.0.425"
+		"value":"17.0.456"
 	}
 }
 
@@ -1678,22 +1865,24 @@ Content-Type: text/plain
 
 sopflags sopflags = 
 comment ""
-position 7.28771 1.76077
-connectornextid 0
-flags =  lock off model off template off footprint off xray off bypass off display on render on highlight off unload off savedata off compress on colordefault on exposed on
+position -5.08929 -7.41845
+connectornextid 1
+flags =  lock off model off template off footprint off xray off bypass off display off render off highlight off unload off savedata off compress on colordefault on exposed on
 outputsNamed3
 {
 }
 inputsNamed3
 {
+0 	switch2 1 1 "input1"
 }
 inputs
 {
+0 	switch2 0 1
 }
 stat
 {
   create 1541708729
-  modify 1542052354
+  modify 1548278256
   author Paul_Ambrosiussen@LAPTOP-P8R7FBPF
   access 0777
 }
@@ -1718,7 +1907,7 @@ Content-Type: text/plain
 {
 	"___Version___":{
 		"type":"string",
-		"value":"17.0.425"
+		"value":"17.0.456"
 	}
 }
 
@@ -1735,7 +1924,7 @@ Content-Type: text/plain
 
 sopflags sopflags = 
 comment ""
-position 2.27784 -6.58183
+position 2.27784 -8.88083
 connectornextid 2
 flags =  lock off model off template off footprint off xray off bypass off display off render off highlight off unload off savedata off compress on colordefault off exposed on
 outputsNamed3
@@ -1753,7 +1942,7 @@ inputs
 stat
 {
   create 1541723063
-  modify 1544659040
+  modify 1548973016
   author Paul_Ambrosiussen@LAPTOP-P8R7FBPF
   access 0777
 }
@@ -1794,7 +1983,7 @@ Content-Type: text/plain
 {
 	"___Version___":{
 		"type":"string",
-		"value":"17.0.425"
+		"value":"17.0.456"
 	}
 }
 
@@ -1811,7 +2000,7 @@ Content-Type: text/plain
 
 sopflags sopflags = 
 comment ""
-position 2.27784 -4.13822
+position 2.27784 -6.43722
 connectornextid 2
 flags =  lock off model off template off footprint off xray off bypass off display off render off highlight off unload off savedata off compress on colordefault off exposed on
 outputsNamed3
@@ -1820,16 +2009,16 @@ outputsNamed3
 }
 inputsNamed3
 {
-1 	detailwrangle1 1 1 "input1"
+1 	switch1 1 1 "input1"
 }
 inputs
 {
-0 	detailwrangle1 0 1
+0 	switch1 0 1
 }
 stat
 {
   create 1541723063
-  modify 1544659043
+  modify 1548973017
   author Paul_Ambrosiussen@LAPTOP-P8R7FBPF
   access 0777
 }
@@ -1858,7 +2047,7 @@ Content-Type: text/plain
 {
 	"___Version___":{
 		"type":"string",
-		"value":"17.0.425"
+		"value":"17.0.456"
 	}
 }
 
@@ -1929,7 +2118,7 @@ Content-Type: text/plain
 {
 	"___Version___":{
 		"type":"string",
-		"value":"17.0.425"
+		"value":"17.0.456"
 	}
 }
 
@@ -1946,7 +2135,7 @@ Content-Type: text/plain
 
 sopflags sopflags = 
 comment ""
-position 2.27624 -5.53543
+position 2.27624 -7.83443
 connectornextid 2
 flags =  lock off model off template off footprint off xray off bypass off display off render off highlight off unload off savedata off compress on colordefault on exposed on
 outputsNamed3
@@ -1964,7 +2153,7 @@ inputs
 stat
 {
   create 1541723875
-  modify 1544212615
+  modify 1548971855
   author Paul_Ambrosiussen@LAPTOP-P8R7FBPF
   access 0777
 }
@@ -1999,10 +2188,12 @@ def SaveLayer(a_LayerName):
 
     if LayerName == \"height\":
         HF_Output = hou.node('../heightfield_output_height')
-        hou.node(\"..\").parm(\"sOutputHeight\").set(ExportFile)
+        HF_Output.parm(\"output\").set(ExportFile)
+        #hou.node(\"..\").parm(\"sOutputHeight\").set(ExportFile)
     else:
+        HF_Output.parm(\"output\").set(ExportFile)
         hou.node(\"..\").parm(\"sOutputLayer\").set(LayerName)
-        hou.node(\"..\").parm(\"sOutputPaint\").set(ExportFile)
+        #hou.node(\"..\").parm(\"sOutputPaint\").set(ExportFile)
         
 
     # Render to disk
@@ -2031,7 +2222,7 @@ Content-Type: text/plain
 {
 	"___Version___":{
 		"type":"string",
-		"value":"17.0.425"
+		"value":"17.0.456"
 	}
 }
 
@@ -2057,7 +2248,7 @@ inputs
 stat
 {
   create 1474476437
-  modify 1544659057
+  modify 1548972918
   author nobody@nowhere
   access 0777
 }
@@ -2114,7 +2305,7 @@ take	[ 0	locks=0 ]	(	_current_	)
 copswitcher	[ 0	locks=0 ]	(	3	3	3	3	3	)
 coppath	[ 0	locks=0 ]	(	../../../heightfield_output_mask/cop2net1/flip1	)
 tres	[ 0	locks=0 ]	(	"natural"	)
-res	[ 0	locks=0 ]	(	505	505	)
+res	[ 0	locks=0 ]	(	500	500	)
 resmenu	[ 0	locks=0 ]	(	0	)
 copoutput	[ 0	locks=0 ]	(	`chs(\"../../output\")`	)
 mkpath	[ 0	locks=0 ]	(	"on"	)
@@ -2129,7 +2320,7 @@ batchmode	[ 0	locks=0 ]	(	"off"	)
 batchsize	[ 0	locks=0 ]	(	2	)
 reloadfiles	[ 0	locks=0 ]	(	"off"	)
 outputarea	[ 0	locks=0 ]	(	"frame"	)
-pixelcrop	[ 0	locks=0 ]	(	0	0	504	504	)
+pixelcrop	[ 0	locks=0 ]	(	0	0	499	499	)
 uvcrop	[ 0	locks=0 ]	(	0	0	1	1	)
 limitcanvaspixels	[ 0	locks=0 ]	(	"on"	)
 canvaspixels	[ 0	locks=0 ]	(	64	)
@@ -2185,7 +2376,7 @@ Content-Type: text/plain
 {
 	"___Version___":{
 		"type":"string",
-		"value":"17.0.425"
+		"value":"17.0.456"
 	}
 }
 
@@ -2211,7 +2402,7 @@ inputs
 stat
 {
   create 1474476437
-  modify 1542052862
+  modify 1547231648
   author nobody@nowhere
   access 0777
 }
@@ -2815,7 +3006,216 @@ Content-Type: text/plain
 {
 	"___Version___":{
 		"type":"string",
-		"value":"17.0.425"
+		"value":"17.0.456"
+	}
+}
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/switch1.init"
+Content-Type: text/plain
+
+type = switch
+matchesdef = 0
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/switch1.def"
+Content-Type: text/plain
+
+sopflags sopflags = 
+comment ""
+position 2.27624 -5.0207
+connectornextid 3
+flags =  lock off model off template off footprint off xray off bypass off display off render off highlight off unload off savedata off compress on colordefault on exposed on
+outputsNamed3
+{
+1 "output1"
+}
+inputsNamed3
+{
+0 	detailwrangle1 1 1 "input1"
+2 	heightfield_wrangle2 1 1 "input2"
+}
+inputs
+{
+0 	detailwrangle1 0 1
+1 	heightfield_wrangle2 0 1
+}
+stat
+{
+  create 1548194171
+  modify 1548279111
+  author Paul_Ambrosiussen@LAPTOP-P8R7FBPF
+  access 0777
+}
+color UT_Color RGB 0.8 1 0.7 
+delscript ""
+exprlanguage hscript
+end
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/switch1.chn"
+Content-Type: text/plain
+
+{
+    channel input {
+      lefttype = extend
+      righttype = extend
+      flags = 0
+      segment { length = 0 expr = 1-ch(\"../sHost\") }
+    }
+  }
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/switch1.parm"
+Content-Type: text/plain
+
+{
+version 0.8
+input	[ 8	locks=0 ]	(	[ input	0 ] 	)
+}
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/switch1.userdata"
+Content-Type: text/plain
+
+{
+	"___Version___":{
+		"type":"string",
+		"value":"17.0.456"
+	}
+}
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/null1.init"
+Content-Type: text/plain
+
+type = null
+matchesdef = 0
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/null1.def"
+Content-Type: text/plain
+
+sopflags sopflags = 
+comment ""
+position -6.61286 -5.0255
+connectornextid 1
+flags =  lock off model off template off footprint off xray off bypass off display off render off highlight off unload off savedata off compress on colordefault on exposed on
+outputsNamed3
+{
+0 "output1"
+}
+inputsNamed3
+{
+}
+inputs
+{
+}
+stat
+{
+  create 1548276864
+  modify 1548276933
+  author Paul_Ambrosiussen@LAPTOP-P8R7FBPF
+  access 0777
+}
+color UT_Color RGB 0.6 0.7 0.77 
+delscript ""
+exprlanguage hscript
+end
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/null1.parm"
+Content-Type: text/plain
+
+{
+version 0.8
+copyinput	[ 0	locks=0 ]	(	"on"	)
+cacheinput	[ 0	locks=0 ]	(	"off"	)
+}
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/null1.userdata"
+Content-Type: text/plain
+
+{
+	"___Version___":{
+		"type":"string",
+		"value":"17.0.456"
+	}
+}
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/switch2.init"
+Content-Type: text/plain
+
+type = switch
+matchesdef = 0
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/switch2.def"
+Content-Type: text/plain
+
+sopflags sopflags = 
+comment ""
+position -5.08929 -6.43457
+connectornextid 3
+flags =  lock off model off template off footprint off xray off bypass off display off render off highlight off unload off savedata off compress on colordefault on exposed on
+outputsNamed3
+{
+1 "output1"
+}
+inputsNamed3
+{
+0 	null1 0 1 "input1"
+2 	detailwrangle1 1 1 "input2"
+}
+inputs
+{
+0 	null1 0 1
+1 	detailwrangle1 0 1
+}
+stat
+{
+  create 1548194171
+  modify 1548276928
+  author Paul_Ambrosiussen@LAPTOP-P8R7FBPF
+  access 0777
+}
+color UT_Color RGB 0.8 1 0.7 
+delscript ""
+exprlanguage hscript
+end
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/switch2.chn"
+Content-Type: text/plain
+
+{
+    channel input {
+      lefttype = extend
+      righttype = extend
+      flags = 0
+      segment { length = 0 expr = ch(\"../sHost\") }
+    }
+  }
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/switch2.parm"
+Content-Type: text/plain
+
+{
+version 0.8
+input	[ 8	locks=0 ]	(	[ input	1 ] 	)
+}
+
+--HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
+Content-Disposition: attachment; filename="hdaroot/switch2.userdata"
+Content-Type: text/plain
+
+{
+	"___Version___":{
+		"type":"string",
+		"value":"17.0.456"
 	}
 }
 
@@ -2823,7 +3223,7 @@ Content-Type: text/plain
 Content-Disposition: attachment; filename="hdaroot.order"
 Content-Type: text/plain
 
-12
+16
 HDA_TERRAIN_INPUT
 TO_EXPORT
 heightfield_output_height
@@ -2836,6 +3236,10 @@ blast1
 python1
 heightfield_output_mask
 detailwrangle1
+switch1
+heightfield_wrangle2
+null1
+switch2
 
 --HOUDINIMIMEBOUNDARY0xD3ADD339-0x00000F49-0x56B122C9-0x00000001HOUDINIMIMEBOUNDARY
 Content-Disposition: attachment; filename="hdaroot.net"

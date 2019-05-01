@@ -1,9 +1,10 @@
 from PySide2 import QtWebEngineWidgets, QtWidgets
-import urllib
+import urllib2
 import os 
-from math import sin, cos, sqrt, atan2, radians
+from math import sin, cos, sqrt, atan2, radians, pow
 import time 
 import platform
+import ssl
 # approximate radius of earth in km
 R = 6371.0
 
@@ -24,6 +25,7 @@ def latlong_distance(lat_long_1, lat_long_2):
     return distance * 1000
 
 def update(node):
+
     launch_map(hidden=True)
     #time.sleep(3)
     hou.session.mapbox_web.urlChanged.connect(url_changed)
@@ -67,14 +69,19 @@ def on_button(test, node):
 
 def refresh(node, force=True):
     
-    lat = node.parm("lat_lon_zoomx").eval()
+    API_KEY = os.getenv("MAPBOX_API")
+    if not API_KEY:
+        API_KEY = node.parm("api_key").eval()
+
+    lat = node.parm("lat_lon_zoomx").eval() 
     lon = node.parm("lat_lon_zoomy").eval()
     zoom = node.parm("lat_lon_zoomz").eval()
-    
+        
     cache_lat = node.parm("cache_lat_lon_zoomx").eval()
     cache_lon = node.parm("cache_lat_lon_zoomy").eval()
     cache_zoom = node.parm("cache_lat_lon_zoomz").eval()
     
+
     if lat != cache_lat or lon != cache_lon or zoom != cache_zoom or force:
         
         node.parm("cache_lat_lon_zoomx").set(lat)
@@ -86,11 +93,30 @@ def refresh(node, force=True):
         ne_lon = node.parm("boundsy").eval()
         sw_lat = node.parm("boundsz").eval()
         sw_lon = node.parm("boundsw").eval()
-    
-        terrain = "https://api.mapbox.com/v4/mapbox.terrain-rgb/" + str(lon) +"," + str(lat) + "," + str((zoom+1)) + "/1024x1024@2x.png?access_token=" + node.parm("api_key").eval()
-        color_url = "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/" + str(lon) + "," + str(lat) + "," + str((zoom)) + "/1024x1024@2x?access_token="+ node.parm("api_key").eval()
-        osm_url = "https://overpass-api.de/api/map?bbox=" + str(sw_lon) + "," + str(sw_lat) + "," + str(ne_lon) + "," + str(ne_lat)
+        
+        offset_lon = node.parm("offsetsx").eval()
+        offset_lat = node.parm("offsetsy").eval()
 
+        
+        if offset_lat: 
+            lat_distance = (ne_lat - sw_lat) * offset_lat
+    
+            lat += lat_distance         
+            ne_lat += lat_distance
+            sw_lat += lat_distance
+        
+        if offset_lon: 
+            lon_distance = (ne_lon - sw_lon) * offset_lon
+            lon += lon_distance
+            ne_lon += lon_distance
+            sw_lon += lon_distance
+    
+        terrain_url = "https://api.mapbox.com/v4/mapbox.terrain-rgb/" + str(lon) +"," + str(lat) + "," + str((zoom+1)) + "/1024x1024@2x.png?access_token=" + API_KEY
+        #print("terrain url: %s" % terrain_url)
+        color_url = "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/" + str(lon) + "," + str(lat) + "," + str((zoom)) + "/1024x1024@2x?access_token="+ API_KEY
+        #print("color url: %s" % color_url)
+        osm_url = "https://overpass-api.de/api/map?bbox=" + str(sw_lon) + "," + str(sw_lat) + "," + str(ne_lon) + "," + str(ne_lat)
+        #print("osm url: %s" % osm_url)
 
         terrain_path = node.parm("download_path_height").eval()
         terrain_dir = os.path.dirname(terrain_path)
@@ -109,11 +135,21 @@ def refresh(node, force=True):
             os.makedirs(osm_dir)
 
         
-        urllib.urlretrieve(terrain, terrain_path)
-        urllib.urlretrieve(color_url, color_path)
-        
-        urllib.urlretrieve(osm_url, osm_path)
-    
+        #urllib2.urlretrieve(terrain, terrain_path, context=ssl._create_unverified_context())
+        terrain_data = urllib2.urlopen(terrain_url, context=ssl._create_unverified_context())
+        with open(terrain_path, 'wb') as output:
+            output.write(terrain_data.read())
+            output.close()
+        #urllib2.urlretrieve(color_url, color_path, context=ssl._create_unverified_context())
+        color_data = urllib2.urlopen(color_url, context=ssl._create_unverified_context())
+        with open(color_path, 'wb') as output:
+            output.write(color_data.read())
+            output.close()
+        #urllib2.urlretrieve(osm_url, osm_path, context=ssl._create_unverified_context())
+        osm_data = urllib2.urlopen(osm_url, context=ssl._create_unverified_context())
+        with open(osm_path, 'wb') as output:
+            output.write(osm_data.read())
+            output.close()
     
     node.node("cop2net1/input_file").parm("reload").pressButton()
     node.node("load_sat_image_as_color").parm("reload").pressButton()
@@ -136,7 +172,11 @@ def launch_map(hidden=False):
     lon = node.parm("lat_lon_zoomy").eval()
     zoom = node.parm("lat_lon_zoomz").eval()
     
-    url = os.environ["HOUDINI_USER_PREF_DIR"] + "/mapbox/mapbox_map.html?#" + str(lon) + "," + str(lat) + "," + str(zoom) + "," + node.parm("api_key").eval()
+    API_KEY = os.getenv("MAPBOX_API")
+    if not API_KEY:
+        API_KEY = node.parm("api_key").eval()
+        
+    url = os.environ["HOUDINI_USER_PREF_DIR"] + "/mapbox/mapbox_map.html?#" + str(lon) + "," + str(lat) + "," + str(zoom) + "," + API_KEY
     if platform.system() != "Windows":
         url = "file://" + url
         

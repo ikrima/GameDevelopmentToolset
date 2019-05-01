@@ -1,0 +1,175 @@
+# Dialog script for gamedev::sop_dirtskirt automatically generated
+
+{
+    name	gamedev::sop_dirtskirt
+    script	gamedev::sop_dirtskirt
+    label	"GameDev Dirt Skirt"
+
+    help {
+	""
+    }
+
+    inputlabel	1	"Object Mesh"
+    inputlabel	2	"Ground Mesh"
+    inputlabel	3	"Sub-Network Input #3"
+    inputlabel	4	"Sub-Network Input #4"
+
+    groupsimple {
+        name    "folder0"
+        label   "Object Skirt"
+
+        parm {
+            name    "scale"
+            label   "Distance"
+            type    float
+            default { "0.15" }
+            help    "Distance up the mesh for the skirt to reach"
+            range   { 0 10 }
+            parmtag { "autoscope" "0000000000000000" }
+        }
+        parm {
+            name    "elementsize"
+            label   "Noise Frequency"
+            type    float
+            default { "0.1" }
+            help    "Noise on the upper portion of the skirt. High Frequency means tighter noise "
+            range   { 0 10 }
+            parmtag { "autoscope" "0000000000000000" }
+            parmtag { "parmvop" "1" }
+            parmtag { "shaderparmcontexts" "cvex" }
+        }
+        parm {
+            name    "height"
+            label   "Noise Intensity"
+            type    float
+            default { "0.2" }
+            help    "Strength of the noise on the upper portion of the skirt"
+            range   { 0 10 }
+            parmtag { "autoscope" "0000000000000000" }
+            parmtag { "parmvop" "1" }
+            parmtag { "shaderparmcontexts" "cvex" }
+        }
+    }
+
+    groupsimple {
+        name    "folder1"
+        label   "Ground Skirt"
+
+        parm {
+            name    "scale2"
+            label   "Distance"
+            type    float
+            default { "0.2" }
+            help    "Distance on the ground the skirt will reach"
+            range   { 0 10 }
+            parmtag { "autoscope" "0000000000000000" }
+        }
+        parm {
+            name    "elementsize2"
+            label   "Noise Frequency"
+            type    float
+            default { "0.81" }
+            help    "Noise on the ground portion of the skirt. High Frequency means tighter noise "
+            range   { 0 10 }
+            parmtag { "autoscope" "0000000000000000" }
+            parmtag { "parmvop" "1" }
+            parmtag { "shaderparmcontexts" "cvex" }
+        }
+        parm {
+            name    "height2"
+            label   "Noise Intensity"
+            type    float
+            default { "0.3" }
+            help    "Strength of the noise on the ground portion of the skirt"
+            range   { 0 10 }
+            parmtag { "autoscope" "0000000000000000" }
+            parmtag { "parmvop" "1" }
+            parmtag { "shaderparmcontexts" "cvex" }
+        }
+    }
+
+    groupsimple {
+        name    "folder3"
+        label   "Tweak Parameters"
+
+        parm {
+            name    "iterations"
+            label   "Relaxation Iterations"
+            type    integer
+            default { "3" }
+            range   { 0 100 }
+            parmtag { "autoscope" "0000000000000000" }
+        }
+        parm {
+            name    "ground_offset"
+            label   "Ground Offset"
+            type    float
+            default { "0.1" }
+            range   { 0 10 }
+        }
+        parm {
+            name    "rotate_x"
+            label   "Rotate X"
+            type    float
+            default { "0" }
+            range   { 0 10 }
+        }
+        parm {
+            name    "rotate_z"
+            label   "Rotate Z"
+            type    float
+            default { "0" }
+            range   { 0 10 }
+        }
+        parm {
+            name    "fade_edges"
+            label   "Add Vertex Color"
+            type    toggle
+            default { "1" }
+        }
+    }
+
+    groupsimple {
+        name    "folder2"
+        label   "Clean Up"
+
+        parm {
+            name    "finalcount"
+            label   "Target Polycount"
+            type    integer
+            default { "500" }
+            range   { 1! 10000 }
+            parmtag { "autoscope" "0000000000000000" }
+        }
+        parm {
+            name    "threshold"
+            label   "Delete Small Area Threshold"
+            type    float
+            default { "0.15" }
+            range   { 0 10 }
+            parmtag { "autoscope" "0000000000000000" }
+        }
+        parm {
+            name    "dist"
+            label   "Z Offset"
+            type    float
+            default { "0.01" }
+            range   { -10 10 }
+            parmtag { "autoscope" "0000000000000000" }
+        }
+        parm {
+            name    "keep_ground_mesh"
+            label   "Keep Ground Mesh"
+            type    toggle
+            joinnext
+            default { "0" }
+        }
+        parm {
+            name    "keep_object_mesh"
+            label   "Keep Object Mesh"
+            type    toggle
+            default { "0" }
+        }
+    }
+
+}

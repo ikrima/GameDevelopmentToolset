@@ -1,0 +1,74 @@
+# Dialog script for gamedev::sop_align_and_distribute automatically generated
+
+{
+    name	gamedev::sop_align_and_distribute
+    script	gamedev::sop_align_and_distribute
+    label	"Gamedev Align and Distribute"
+
+    help {
+	""
+    }
+
+    inputlabel	1	"Merged Meshes to Align"
+    inputlabel	2	"Sub-Network Input #2"
+    inputlabel	3	"Sub-Network Input #3"
+    inputlabel	4	"Sub-Network Input #4"
+
+    parm {
+        name    "split_by"
+        label   "Split By "
+        type    ordinal
+        default { "0" }
+        menu {
+            "0" "Connectivity"
+            "1" "Name"
+        }
+    }
+    parm {
+        name    "sort_by"
+        label   "Sort By"
+        type    ordinal
+        default { "0" }
+        menu {
+            "0" "None"
+            "1" "Size"
+            "2" "Polycount"
+        }
+    }
+    parm {
+        name    "offset"
+        label   "Spacing"
+        type    float
+        default { "1" }
+        range   { 0 10 }
+    }
+    groupsimple {
+        name    "folder0"
+        label   "Global Alignment"
+
+        parm {
+            name    "axis"
+            label   "Axis"
+            type    ordinal
+            joinnext
+            default { "0" }
+            menu {
+                "0" "X"
+                "1" "Y"
+                "2" "Z"
+            }
+        }
+        parm {
+            name    "alignment"
+            label   "Alignment"
+            type    ordinal
+            default { "0" }
+            menu {
+                "0" "Positive"
+                "1" "Center"
+                "2" "Negative"
+            }
+        }
+    }
+
+}

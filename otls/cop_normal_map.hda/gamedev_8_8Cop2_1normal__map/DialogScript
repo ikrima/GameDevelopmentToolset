@@ -22,9 +22,17 @@
     }
 
     parm {
-        name    "strength"
+        name    "multiplier"
         label   "Strength"
         type    float
+        default { "1" }
+        range   { 0 10 }
+    }
+    parm {
+        name    "strength"
+        label   "_old_strength"
+        type    float
+        invisible
         default { "1" }
         range   { 0 10 }
     }
